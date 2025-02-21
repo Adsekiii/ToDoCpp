@@ -3,6 +3,10 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    
+	ToDo todo("Database.txt");
+	todo.Init();
+
+	return EXIT_SUCCESS;
 }
 

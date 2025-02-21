@@ -11,5 +11,5 @@ public:
 	void EraseTask();
 	void EditTask();
 private:
-	FileLoader* _loader;
+	std::unique_ptr<FileLoader> _loader;
 };
