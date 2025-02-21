@@ -38,3 +38,7 @@ void ToDo::AddTask() {
 	std::cout << '\n';
 	return;
 }
+
+void ToDo::EditTask(int task) {
+
+}

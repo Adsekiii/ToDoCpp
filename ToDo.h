@@ -10,7 +10,8 @@ public:
 	void Init();
 	void AddTask();
 	void EraseTask();
-	void EditTask();
+	void EditTask(int);
+	void EditStatus();
 private:
 	std::unique_ptr<FileLoader> _loader;
 };

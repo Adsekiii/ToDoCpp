@@ -79,4 +79,9 @@ void FileLoader::WriteLine(std::string text) {
 	_file->seekg(0,std::ios::end);
 
 	*_file << text << '\n';
+
+	_file->close();
+	_file = nullptr;
+
+	return;
 }
