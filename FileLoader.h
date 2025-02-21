@@ -7,6 +7,7 @@ public:
 	~FileLoader();						//
 	void ReadFromFile();				//
 	void WriteToFile();					//
+	void ReadLine();					//
 private:								//
 	std::unique_ptr<std::fstream> _file;//
 };
