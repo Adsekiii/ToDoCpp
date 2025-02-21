@@ -13,6 +13,28 @@ ToDo::~ToDo() {
 }
 
 void ToDo::Init() {
-	_loader->ReadFromFile();
+	_loader->OverwriteFile("");
+
+	AddTask();
+	AddTask();
+	AddTask();
+	AddTask();
+	AddTask();
+
+	_loader->ReadLine(2);
 }
 
+void ToDo::AddTask() {
+	std::string input;
+
+	std::cout << "Task name: ";
+	std::getline(std::cin, input);
+	_loader->WriteLine(input);
+
+	std::cout << "Current Status: ";
+	std::getline(std::cin, input);
+	_loader->WriteLine(input);
+
+	std::cout << '\n';
+	return;
+}
