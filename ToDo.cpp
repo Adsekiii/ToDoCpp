@@ -21,7 +21,7 @@ void ToDo::Init() {
 	AddTask();
 	AddTask();
 
-	_loader->ReadLine(2);
+	_loader->ReadLine(1);
 }
 
 void ToDo::AddTask() {
@@ -40,5 +40,8 @@ void ToDo::AddTask() {
 }
 
 void ToDo::EditTask(int task) {
+	std::vector<std::string> fullTask = _loader->GetLine(task);
+	std::string taskName = fullTask.at(0);
 
+	
 }

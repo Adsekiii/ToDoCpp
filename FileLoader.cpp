@@ -43,7 +43,7 @@ void FileLoader::OverwriteFile(std::string text) {
 	return;
 }
 
-void FileLoader::ReadLine(int taskNumber) {
+void FileLoader::ReadLine(int lineNumber) {
 	_file = std::make_unique<std::fstream>(_fileName, std::ios::in);
 
 	std::string line;
@@ -53,11 +53,11 @@ void FileLoader::ReadLine(int taskNumber) {
 
 	int lineNum = 1;
 
-	taskNumber = taskNumber * 2 - 1;
+	lineNumber = lineNumber * 2 - 1;
 
 	if (_file->is_open()) {
 		while (std::getline(*_file, line)) {
-			if (lineNum == taskNumber || lineNum == taskNumber + 1) {
+			if (lineNum == lineNumber || lineNum == lineNumber + 1) {
 				std::cout << line << '\n';
 			}
 			lineNum += 1;
@@ -84,4 +84,35 @@ void FileLoader::WriteLine(std::string text) {
 	_file = nullptr;
 
 	return;
+}
+
+std::vector<std::string> FileLoader::GetLine(int lineNumber) {
+	_file = std::make_unique<std::fstream>(_fileName, std::ios::in);
+
+	std::vector<std::string> returnValue;
+
+	std::string line;
+
+	_file->clear();
+	_file->seekg(0, std::ios::beg);
+
+	int lineNum = 1;
+
+	lineNumber = lineNumber * 2 - 1;
+
+	if (_file->is_open()) {
+		while (std::getline(*_file, line)) {
+			if (lineNum == lineNumber || lineNum == lineNumber + 1) {
+				returnValue.push_back(line);
+			}
+			lineNum += 1;
+		}
+	}
+	else {
+		std::cout << "File can't be open\n";
+	}
+
+	_file->close();
+	_file = nullptr;
+	return returnValue;
 }

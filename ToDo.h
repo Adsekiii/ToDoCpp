@@ -1,6 +1,8 @@
 #pragma once
 #include "FileLoader.h"
 #include <conio.h>
+#include <vector>
+#include <string>
 #include <iostream>
 
 class ToDo {
