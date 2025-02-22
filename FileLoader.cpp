@@ -12,8 +12,10 @@ FileLoader::~FileLoader() {
 	}
 }
 
-void FileLoader::ReadFromFile() {
+std::vector<std::string> FileLoader::ReadFromFile() {
 	_file = std::make_unique<std::fstream>(_fileName, std::ios::in);
+
+	std::vector<std::string> outputValue;
 
 	std::string line;
 
@@ -22,7 +24,7 @@ void FileLoader::ReadFromFile() {
 
 	if (_file->is_open()) {
 		while (std::getline(*_file, line)){
-			std::cout << line << '\n';
+			outputValue.push_back(line);
 		}
 	}
 	else {
@@ -30,10 +32,24 @@ void FileLoader::ReadFromFile() {
 	}
 	_file->close();
 	_file = nullptr;
+	return outputValue;
+}
+
+void FileLoader::WriteToFile(std::vector<std::string> message) {
+	_file = std::make_unique<std::fstream>(_fileName, std::ios::app);
+
+	_file->clear();
+	_file->seekg(0, std::ios::beg);
+
+	for(std::string text : message)
+		*_file << text << '\n';
+
+	_file->close();
+	_file = nullptr;
 	return;
 }
 
-void FileLoader::OverwriteFile(std::string text) {
+void FileLoader::ClearFile(std::string text) {
 	_file = std::make_unique<std::fstream>(_fileName, std::ios::out);
 
 	*_file << text;
@@ -43,76 +59,3 @@ void FileLoader::OverwriteFile(std::string text) {
 	return;
 }
 
-void FileLoader::ReadLine(int lineNumber) {
-	_file = std::make_unique<std::fstream>(_fileName, std::ios::in);
-
-	std::string line;
-
-	_file->clear();
-	_file->seekg(0,std::ios::beg);
-
-	int lineNum = 1;
-
-	lineNumber = lineNumber * 2 - 1;
-
-	if (_file->is_open()) {
-		while (std::getline(*_file, line)) {
-			if (lineNum == lineNumber || lineNum == lineNumber + 1) {
-				std::cout << line << '\n';
-			}
-			lineNum += 1;
-		}
-	}
-	else {
-		std::cout << "File can't be open\n";
-	}
-
-	_file->close();
-	_file = nullptr;
-	return;
-}
-
-void FileLoader::WriteLine(std::string text) {
-	_file = std::make_unique<std::fstream>(_fileName, std::ios::app);
-
-	_file->clear();
-	_file->seekg(0,std::ios::end);
-
-	*_file << text << '\n';
-
-	_file->close();
-	_file = nullptr;
-
-	return;
-}
-
-std::vector<std::string> FileLoader::GetLine(int lineNumber) {
-	_file = std::make_unique<std::fstream>(_fileName, std::ios::in);
-
-	std::vector<std::string> returnValue;
-
-	std::string line;
-
-	_file->clear();
-	_file->seekg(0, std::ios::beg);
-
-	int lineNum = 1;
-
-	lineNumber = lineNumber * 2 - 1;
-
-	if (_file->is_open()) {
-		while (std::getline(*_file, line)) {
-			if (lineNum == lineNumber || lineNum == lineNumber + 1) {
-				returnValue.push_back(line);
-			}
-			lineNum += 1;
-		}
-	}
-	else {
-		std::cout << "File can't be open\n";
-	}
-
-	_file->close();
-	_file = nullptr;
-	return returnValue;
-}
