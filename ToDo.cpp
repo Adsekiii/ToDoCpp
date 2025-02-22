@@ -14,6 +14,7 @@ ToDo::~ToDo() {
 
 void ToDo::Init() {
 
+	EditTask();
 	ReadToDo();
 	return;
 }
@@ -53,7 +54,41 @@ void ToDo::EditTask() {
 
 	system("cls");
 	
+	std::string task = fileValue.at(2 * userChoice-1-1);
+	char currentChar = '\0';
 
+
+	while (currentChar != '\r') {
+		system("cls");
+		std::cout << task;
+		currentChar = _getch();
+
+		if (currentChar == '\b') {
+			if (task.length() > 1) {
+				task.pop_back();
+			}
+			else {
+				task.at(0) = ' ';
+			}
+			continue;
+		}
+
+		if (task.at(0) == ' ') {
+			task.at(0) = currentChar;
+			continue;
+		}
+
+		task += currentChar;
+		
+	}
+	//popping the new line character
+	task.pop_back();
+
+	//							 -1  -1 => one for the equation to work and the other for the vector to start from 0
+	fileValue.at(2 * userChoice - 1 - 1) = task;
+	_loader->ClearFile("");
+	_loader->WriteToFile(fileValue);
+	system("cls");
 	return;
 }
 
