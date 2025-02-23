@@ -14,14 +14,67 @@ ToDo::~ToDo() {
 
 void ToDo::Init() {
 
-	EraseTask();
-	AddTask();
-	ReadToDo();
+	while (true) {
+		std::string userChoice = "0";
+		
+		system("cls");
+		std::cout << "======ToDo======\n";
+		std::cout << "1.Show list\n";
+		std::cout << "2.Add task\n";
+		std::cout << "3.Edit task\n";
+		std::cout << "4.Edit status\n";
+		std::cout << "5.Erase task\n";
+		std::cout << "6.Clear tasks\n";
+		
+		std::getline(std::cin, userChoice);
+
+		int choice;
+
+		try {
+			choice = std::stoi(userChoice);
+		}
+		catch (std::exception e) {
+			std::cout << e.what() << '\n';
+			choice = 10;
+		}
+
+		if (choice > 6 || choice < 1) {
+			std::cout << "There is no such option! Press any key to continue.\n";
+			_getch();
+			Init();
+		}
+
+		switch (choice)
+		{
+		case 1:
+			ReadToDo();
+			std::cout << "Press any key to continue.\n";
+			_getch();
+			break;
+		case 2:
+			AddTask();
+			break;
+		case 3:
+			EditTask();
+			break;
+		case 4:
+			EditStatus();
+			break;
+		case 5:
+			EraseTask();
+			break;
+		case 6:
+			_loader->ClearFile("");
+			break;
+		}
+	}
 	return;
 }
 
 void ToDo::AddTask() {
 	std::vector<std::string> input;
+
+	system("cls");
 
 	input.push_back("");
 	input.push_back("");
@@ -41,13 +94,25 @@ void ToDo::AddTask() {
 void ToDo::EditTask() {
 	std::vector<std::string> fileValue = _loader->ReadFromFile();
 
-	int userChoice = 0;
+	std::string userChoice = "0";
 
 	system("cls");
 	ReadToDo();
 	std::cout << "Which task would you like to edit? : ";
-	std::cin >> userChoice;
-	if (userChoice > fileValue.size() / 2 || userChoice < 1) {
+	
+	std::getline(std::cin, userChoice);
+
+	int choice;
+
+	try {
+		choice = std::stoi(userChoice);
+	}
+	catch (std::exception e) {
+		std::cout << e.what() << '\n';
+		choice = fileValue.size()*2;
+	}
+
+	if (choice > fileValue.size() / 2 || choice < 1) {
 		std::cout << "No such task, press any key to try again!";
 		_getch();
 		EditTask();
@@ -55,7 +120,7 @@ void ToDo::EditTask() {
 
 	system("cls");
 	
-	std::string task = fileValue.at(2 * userChoice - 1 - 1);
+	std::string task = fileValue.at(2 * choice - 1 - 1);
 	char currentChar = '\0';
 
 
@@ -86,7 +151,7 @@ void ToDo::EditTask() {
 	task.pop_back();
 
 	//							 -1  -1 => one for the equation to work and the other for the vector to start from 0
-	fileValue.at(2 * userChoice - 1 - 1) = task;
+	fileValue.at(2 * choice - 1 - 1) = task;
 	_loader->ClearFile("");
 	_loader->WriteToFile(fileValue);
 	system("cls");
@@ -96,14 +161,25 @@ void ToDo::EditTask() {
 void ToDo::EditStatus() {
 	std::vector<std::string> fileValue = _loader->ReadFromFile();
 
-	int userChoice = 0;
+	std::string userChoice = "0";
+	
 
 	system("cls");
 	ReadToDo();
 	std::cout << "Status of which task would you like to edit? : ";
-	std::cin >> userChoice;
-	std::cin.ignore();
-	if (userChoice > fileValue.size() / 2 || userChoice < 1) {
+	std::getline(std::cin, userChoice);
+
+	int choice;
+
+	try {
+		choice = std::stoi(userChoice);
+	}
+	catch (std::exception e) {
+		std::cout << e.what() << '\n';
+		choice = fileValue.size() * 2;
+	}
+
+	if (choice > fileValue.size() / 2 || choice < 1) {
 		std::cout << "No such task, press any key to try again!";
 		_getch();
 		EditTask();
@@ -111,7 +187,7 @@ void ToDo::EditStatus() {
 
 	system("cls");
 
-	std::string task = fileValue.at(2 * userChoice - 1);
+	std::string task = fileValue.at(2 * choice - 1);
 	char currentChar = '\0';
 
 
@@ -141,7 +217,7 @@ void ToDo::EditStatus() {
 	//popping the new line character
 	task.pop_back();
 
-	fileValue.at(2 * userChoice - 1 ) = task;
+	fileValue.at(2 * choice - 1 ) = task;
 	_loader->ClearFile("");
 	_loader->WriteToFile(fileValue);
 	system("cls");
@@ -152,6 +228,8 @@ void ToDo::ReadToDo() {
 	std::vector<std::string> fileValue= _loader->ReadFromFile();
 
 	int taskNum = 1;
+
+	system("cls");
 
 	for (int i = 0; i < fileValue.size(); i++) {
 		if(i%2 == 0)
@@ -167,23 +245,32 @@ void ToDo::ReadToDo() {
 void ToDo::EraseTask() {
 
 	std::vector<std::string> fileValue = _loader->ReadFromFile();
-	int userChoice = 0;
+	std::string userChoice = "0";
 
 	system("cls");
 
 	ReadToDo();
 
 	std::cout << "Which task would you like to delete: ";
-	std::cin >> userChoice;
-	std::cin.ignore();
+	std::getline(std::cin, userChoice);
 
-	if (userChoice > fileValue.size() / 2 || userChoice < 1) {
+	int choice;
+
+	try {
+		choice = std::stoi(userChoice);
+	}
+	catch (std::exception e) {
+		std::cout << e.what() << '\n';
+		choice = fileValue.size() * 2;
+	}
+
+	if (choice > fileValue.size() / 2 || choice < 1) {
 		std::cout << "There is no task under that index! Press any key to try again!";
 		_getch();
 		EraseTask();
 	}
 
-	for (int i = userChoice * 2 - 1 - 1; i < fileValue.size() - 2; i++) {
+	for (int i = choice * 2 - 1 - 1; i < fileValue.size() - 2; i++) {
 		fileValue.at(i) = fileValue.at(i+2);
 	}
 

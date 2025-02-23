@@ -3,8 +3,6 @@
 
 int main()
 {
-
-    
 	ToDo todo("Database.txt");
 	todo.Init();
 

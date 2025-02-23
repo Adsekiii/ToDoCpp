@@ -1,14 +1,16 @@
-t1
-s1
-t4
-s4
-t5
-s5
-t4
-s4
-t4
-s4
-new task
-new status
-Totally new task
-Totally new status
+Task 1
+Status 1
+Task 2
+Status 2
+Task 3
+Status 3
+Task 4
+Status 4
+Task 5
+Status 5
+Task 6
+Status 6
+Task 7
+Status 7
+Task 8
+Status 8
